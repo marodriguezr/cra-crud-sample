@@ -1,25 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { NavigationBar } from "./components/NavigationBar";
+
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+
+import { Index } from "./pages";
+import Create from "./pages/empleados/create";
+import Manage from "./pages/empleados/manage";
+import { useRef } from "react";
+import { Toast } from "primereact/toast";
 
 function App() {
+  const toast = useRef(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Toast ref={toast} />
+      <NavigationBar></NavigationBar>
+      <Routes>
+        <Route index element={<Index></Index>}></Route>
+        <Route path="empleados">
+          <Route
+            path="create"
+            element={<Create toast={toast}></Create>}
+          ></Route>
+          <Route
+            path="manage"
+            element={<Manage toast={toast}></Manage>}
+          ></Route>
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
